@@ -6,6 +6,17 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.state ={}
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.setState({[event.target.id]:event.target.value})
+  }
+
   render() {
     return (
       <Container>
@@ -15,9 +26,8 @@ class App extends Component {
           </Col>
         </Row>
         {/* column 1 form starts here */}
-        <Row>
-          <Col>
-          <Form className="wholeform">
+        <Form className="row wholeform" onChange={this.handleSubmit}>
+          <Col sm={6} style={{float:'left'}}>
               <Form.Group as={Row} controlId="name" >
               <Form.Label  column sm="2">Name:</Form.Label>
               <Col sm="10"><Form.Control type="name" placeholder="Enter your name" size="sm" />
@@ -30,7 +40,7 @@ class App extends Component {
               </Col>
               </Form.Group>
 
-              <Form.Group as={Row} controlId="contact" >
+            <Form.Group as={Row} controlId="contact" >
               <Form.Label column sm="2" >Contact:</Form.Label>
               <Col sm="10"><Form.Control type="contact" placeholder="Enter your Contact details" size="sm" />
               </Col>
@@ -56,15 +66,15 @@ class App extends Component {
               <Col sm="10"><Form.Control type="zodiac" placeholder="Enter your Zodiac" size="sm" />
               </Col>
               </Form.Group>
-            </Form>
+            {/* </Form> */}
           </Col>
 
           {/* column 1 form ends here */}
 
           {/* column 2 form starts here */}
 
-          <Col>
-          <Form className="wholeform">
+          <Col sm={6}>
+          {/* <Form className="wholeform"> */}
               <Form.Group as={Row} controlId="crush" >
               <Form.Label column sm="2" >1st crush:</Form.Label>
               <Col sm="10"><Form.Control type="crush"  size="sm" />
@@ -94,15 +104,14 @@ class App extends Component {
               <Col sm="10"><Form.Control as="textarea" rows="5" type="about-me" placeholder="Write whatever comes to your mind!" size="sm" />
               </Col>
               </Form.Group>
-            </Form>
-          </Col>
+            </Col>
+          </Form>
 
+          <Button as={Row} variant="primary" type="submit">Submit</Button>
           {/* column 2 form ends here */}
-        </Row>
+        {/* </Row> */}
         
-        <Row>
-          <Button type="submit" size="lg">Submit</Button>
-        </Row>
+        
       </Container>     
     );
   }
