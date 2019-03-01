@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import Result from './App';
+import App, {Result} from './App';
 import * as serviceWorker from './serviceWorker';
-import { Router, Route, Link} from 'react-router-dom';
+import { Router, Route} from 'react-router-dom';
 import {createBrowserHistory} from 'history';
 const history = createBrowserHistory();
 
@@ -12,7 +11,7 @@ ReactDOM.render(
     <Router history={history}>
     <div>
         <Route exact path="/DisplayResult" component={Result}/>
-        <Route exact path="/form" component={Result}/>
+        <Route exact path="/form" component={App}/>
     </div>
     </Router>
     ,document.getElementById('root'));

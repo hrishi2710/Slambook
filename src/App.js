@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { Router, Route, Link} from 'react-router-dom';
-import {createBrowserHistory} from 'history';
-const history = createBrowserHistory();
 
 
 function Result(){
@@ -25,6 +22,7 @@ class App extends Component {
     };
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleDateChange(date) {
@@ -40,6 +38,7 @@ class App extends Component {
   }
 
   handleClick(event){
+    const {history} = this.props
     event.preventDefault();
     history.push("/DisplayResult");
   }
@@ -146,4 +145,3 @@ class App extends Component {
 export {Result};
 
 export default App;
-
