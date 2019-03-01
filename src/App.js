@@ -1,13 +1,53 @@
 import React, { Component } from 'react';
-import {Row, Col, Container, Form, Dropdown, Button} from 'react-bootstrap';
 import './App.css';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import { Router, Route, Link} from 'react-router-dom';
+import {createBrowserHistory} from 'history';
+const history = createBrowserHistory();
+
+
+function Result(){
+  return(
+    <div>
+      <h1>Form submitted</h1>
+    </div>
+  );
+}
 
 
 class App extends Component {
+
+  constructor(props){
+    super(props);
+    this.state={
+      defaultDate : new Date(),
+    };
+    this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleFormChange = this.handleFormChange.bind(this);
+  }
+
+  handleDateChange(date) {
+     this.setState({
+       defaultDate : date
+     });
+    }
   
+  handleFormChange(event) {
+    this.setState({
+      [event.target.id] : event.target.value
+    });
+  }
+
+  handleClick(event){
+    event.preventDefault();
+    history.push("/DisplayResult");
+  }
+
+
   render() {
+
+    console.log(this.state);
     return (
       <div className="container">
         <div className="row">
@@ -17,23 +57,20 @@ class App extends Component {
             </div>
           </div>
         </div>
+        <form className="wholeform" onChange = {this.handleFormChange}>
         <div className="row">
           <div className="col">
-            <form className="wholeform">
+            
               <div className="form-group row">
                 <label htmlFor="name" className="form-label col-form-label col-sm-2">Name:</label>
                 <div className="col-sm-10">
-                  <input placeholder="Enter your name" type="name" id="name" className="form-control form-control-sm"/>
+                  <input placeholder="Enter your name" name="name" type="name" id="name" className="form-control form-control-sm"/>
                 </div>
               </div>
               <div className="form-group row">
                 <label htmlFor="dob" className="form-label col-form-label col-sm-2">DOB:</label>
                 <div className="col-sm-10">
-                  <div className="react-datepicker-wrapper">
-                    <div className="react-datepicker__input-container">
-                      <input type="text" className="" />
-                    </div>
-                  </div>
+                  <div> <DatePicker id="dob" selected={this.state.defaultDate} onChange={this.handleDateChange}></DatePicker> </div>
                 </div>
               </div>
               <div className="form-group row">
@@ -46,14 +83,11 @@ class App extends Component {
               <div className="form-group row">
                 <label htmlFor="gender" className="form-label col-form-label col-sm-2">Gender:</label>
                 <div className="col-sm-10">
-                  <div className="dropdown">
-                    <button aria-haspopup="true" aria-expanded="false" id="gender-dropdown" type="button" className="dropdown-toggle btn btn-success">Select gender</button>
-                    <div aria-labelledby="gender-dropdown" className="dropdown-menu" x-placement="bottom-start" style={{"position": "absolute", "willchange": "transform", "top":"0px", "left": "0px", "transform": "translate3d(0px, 38px, 0px)"}}>
-                      <a href="#/Male" className="dropdown-item">Male</a>
-                      <a href="#/Female" className="dropdown-item">Female</a>
-                      <a href="#/Transgender" className="dropdown-item">Transgender</a>
-                    </div>
-                  </div>
+                  <select id="gender">
+                    <option value ="male">Male</option>
+                    <option value ="female">Female</option>
+                    <option value ="transgender">Transgender</option>
+                  </select>
                 </div>
               </div>
               <div className="form-group row">
@@ -62,10 +96,10 @@ class App extends Component {
                   <input placeholder="Enter your Zodiac" type="zodiac" id="zodiac" className="form-control form-control-sm"/>
                 </div>
               </div>
-            </form>
+            
           </div>
-          <div className="col">
-            <form className="wholeform">
+        <div className="col">
+            
             <div className="form-group row">
               <label htmlFor="crush" className="form-label col-form-label col-sm-2">1st crush:</label>
               <div className="col-sm-10">
@@ -96,16 +130,20 @@ class App extends Component {
                 <textarea rows="5" placeholder="Write whatever comes to your mind!" type="about-me" id="about-me" className="form-control form-control-sm"></textarea>
               </div>
             </div>
-          </form>
+          
         </div>
       </div>
+      </form>
+      
       <div className="row">
-        <button type="submit" className="btn btn-primary btn-lg">Submit</button>
+      <button type="submit" className="btn btn-primary btn-lg" onClick={this.handleClick}>Submit</button>
       </div>
     </div>     
     );
   }
 }
+
+export {Result};
 
 export default App;
 
