@@ -1,120 +1,148 @@
 import React, { Component } from 'react';
-import {Row, Col, Container, Form, Dropdown, Button} from 'react-bootstrap';
 import './App.css';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import { Router, Route, Link} from 'react-router-dom';
+import {createBrowserHistory} from 'history';
+const history = createBrowserHistory();
+
+
+function Result(){
+  return(
+    <div>
+      <h1>Form submitted</h1>
+    </div>
+  );
+}
 
 
 class App extends Component {
-  constructor(props) {
-    super(props)
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.state ={}
+
+  constructor(props){
+    super(props);
+    this.state={
+      defaultDate : new Date(),
+    };
+    this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleFormChange = this.handleFormChange.bind(this);
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    this.setState({[event.target.id]:event.target.value})
+  handleDateChange(date) {
+     this.setState({
+       defaultDate : date
+     });
+    }
+  
+  handleFormChange(event) {
+    this.setState({
+      [event.target.id] : event.target.value
+    });
   }
+
+  handleClick(event){
+    event.preventDefault();
+    history.push("/DisplayResult");
+  }
+
 
   render() {
+
+    console.log(this.state);
     return (
-      <Container>
-        <Row>
-          <Col lg={{ span :6 , offset :3}}>
-          <div><h1>Slambook</h1></div>
-          </Col>
-        </Row>
-        {/* column 1 form starts here */}
-        <Form className="row wholeform" onChange={this.handleSubmit}>
-          <Col sm={6} style={{float:'left'}}>
-              <Form.Group as={Row} controlId="name" >
-              <Form.Label  column sm="2">Name:</Form.Label>
-              <Col sm="10"><Form.Control type="name" placeholder="Enter your name" size="sm" />
-              </Col>
-              </Form.Group>
-
-              <Form.Group as={Row} controlId="dob" >
-              <Form.Label  column sm="2">DOB:</Form.Label>
-              <Col sm="10"><DatePicker/>
-              </Col>
-              </Form.Group>
-
-            <Form.Group as={Row} controlId="contact" >
-              <Form.Label column sm="2" >Contact:</Form.Label>
-              <Col sm="10"><Form.Control type="contact" placeholder="Enter your Contact details" size="sm" />
-              </Col>
-              <Form.Text className='contact-muted-text'>Your contact is confidential! Cheers!</Form.Text>
-              </Form.Group>
-
-              <Form.Group as={Row} controlId="gender" >
-              <Form.Label column sm="2" >Gender:</Form.Label>
-              <Col sm="10">
-              <Dropdown>
-                <Dropdown.Toggle variant="success" id="gender-dropdown">Select gender</Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item href="#/Male">Male</Dropdown.Item>
-                  <Dropdown.Item href="#/Female">Female</Dropdown.Item>
-                  <Dropdown.Item href="#/Transgender">Transgender</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-              </Col>
-              </Form.Group>
-
-              <Form.Group as={Row} controlId="zodiac" >
-              <Form.Label column sm="2" >Zodiac:</Form.Label>
-              <Col sm="10"><Form.Control type="zodiac" placeholder="Enter your Zodiac" size="sm" />
-              </Col>
-              </Form.Group>
-            {/* </Form> */}
-          </Col>
-
-          {/* column 1 form ends here */}
-
-          {/* column 2 form starts here */}
-
-          <Col sm={6}>
-          {/* <Form className="wholeform"> */}
-              <Form.Group as={Row} controlId="crush" >
-              <Form.Label column sm="2" >1st crush:</Form.Label>
-              <Col sm="10"><Form.Control type="crush"  size="sm" />
-              </Col>
-              </Form.Group>
-
-              <Form.Group as={Row} controlId="sport" >
-              <Form.Label column sm="2" >Fav sport:</Form.Label>
-              <Col sm="10"><Form.Control type="sport" placeholder="Cricket, football etc." size="sm" />
-              </Col>
-              </Form.Group>
-
-              <Form.Group as={Row} controlId="hobby" >
-              <Form.Label column sm="2" >Hobby:</Form.Label>
-              <Col sm="10"><Form.Control type="hobby" placeholder="video games, coin collection etc." size="sm" />
-              </Col>
-              </Form.Group>
-
-              <Form.Group as={Row} controlId="nickname" >
-              <Form.Label column sm="2" >Nickname:</Form.Label>
-              <Col sm="10"><Form.Control type="nickname"  size="sm"  placeholder="what friends call you!"/>
-              </Col>
-              </Form.Group>
-
-              <Form.Group as={Row} controlId="about-me" >
-              <Form.Label column sm="2" >About me:</Form.Label>
-              <Col sm="10"><Form.Control as="textarea" rows="5" type="about-me" placeholder="Write whatever comes to your mind!" size="sm" />
-              </Col>
-              </Form.Group>
-            </Col>
-          </Form>
-
-          <Button as={Row} variant="primary" type="submit">Submit</Button>
-          {/* column 2 form ends here */}
-        {/* </Row> */}
-        
-        
-      </Container>     
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-6 offset-lg-3">
+            <div>
+              <h1>Slambook</h1>
+            </div>
+          </div>
+        </div>
+        <form className="wholeform" onChange = {this.handleFormChange}>
+        <div className="row">
+          <div className="col">
+            
+              <div className="form-group row">
+                <label htmlFor="name" className="form-label col-form-label col-sm-2">Name:</label>
+                <div className="col-sm-10">
+                  <input placeholder="Enter your name" name="name" type="name" id="name" className="form-control form-control-sm"/>
+                </div>
+              </div>
+              <div className="form-group row">
+                <label htmlFor="dob" className="form-label col-form-label col-sm-2">DOB:</label>
+                <div className="col-sm-10">
+                  <div> <DatePicker id="dob" selected={this.state.defaultDate} onChange={this.handleDateChange}></DatePicker> </div>
+                </div>
+              </div>
+              <div className="form-group row">
+                <label htmlFor="contact" className="form-label col-form-label col-sm-2">Contact:</label>
+                <div className="col-sm-10">
+                  <input placeholder="Enter your Contact details" type="contact" id="contact" className="form-control form-control-sm"/>
+                </div>
+                <small className="contact-muted-text form-text">Your contact is confidential! Cheers!</small>
+              </div>
+              <div className="form-group row">
+                <label htmlFor="gender" className="form-label col-form-label col-sm-2">Gender:</label>
+                <div className="col-sm-10">
+                  <select id="gender">
+                    <option value ="male">Male</option>
+                    <option value ="female">Female</option>
+                    <option value ="transgender">Transgender</option>
+                  </select>
+                </div>
+              </div>
+              <div className="form-group row">
+                <label htmlFor="zodiac" className="form-label col-form-label col-sm-2">Zodiac:</label>
+                <div className="col-sm-10">
+                  <input placeholder="Enter your Zodiac" type="zodiac" id="zodiac" className="form-control form-control-sm"/>
+                </div>
+              </div>
+            
+          </div>
+        <div className="col">
+            
+            <div className="form-group row">
+              <label htmlFor="crush" className="form-label col-form-label col-sm-2">1st crush:</label>
+              <div className="col-sm-10">
+                <input type="crush" id="crush" className="form-control form-control-sm"/>
+              </div>
+            </div>
+            <div className="form-group row">
+              <label htmlFor="sport" className="form-label col-form-label col-sm-2">Fav sport:</label>
+              <div className="col-sm-10">
+                <input placeholder="Cricket, football etc." type="sport" id="sport" className="form-control form-control-sm"/>
+              </div>
+            </div>
+            <div className="form-group row">
+              <label htmlFor="hobby" className="form-label col-form-label col-sm-2">Hobby:</label>
+              <div className="col-sm-10">
+                <input placeholder="video games, coin collection etc." type="hobby" id="hobby" className="form-control form-control-sm"/>
+              </div>
+            </div>
+            <div className="form-group row">
+              <label htmlFor="nickname" className="form-label col-form-label col-sm-2">Nickname:</label>
+              <div className="col-sm-10">
+                <input placeholder="what friends call you!" type="nickname" id="nickname" className="form-control form-control-sm"/>
+              </div>
+            </div>
+            <div className="form-group row">
+              <label htmlFor="about-me" className="form-label col-form-label col-sm-2">About me:</label>
+              <div className="col-sm-10">
+                <textarea rows="5" placeholder="Write whatever comes to your mind!" type="about-me" id="about-me" className="form-control form-control-sm"></textarea>
+              </div>
+            </div>
+          
+        </div>
+      </div>
+      </form>
+      
+      <div className="row">
+      <button type="submit" className="btn btn-primary btn-lg" onClick={this.handleClick}>Submit</button>
+      </div>
+    </div>     
     );
   }
 }
+
+export {Result};
 
 export default App;
